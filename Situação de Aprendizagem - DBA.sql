@@ -80,3 +80,21 @@ SELECT * FROM Pacotes;
 SELECT * FROM Clientes;
 SELECT * FROM Reservas;
 
+
+CREATE VIEW PacotesDisponiveis AS
+SELECT 
+    p.id AS PacoteID,
+    p.nomePacote,
+    p.Preço,
+    p.dataInício,
+    p.dataTermino,
+    d.nomeDestino,
+    d.pais
+FROM 
+    Pacotes p
+JOIN 
+    Destinos d ON p.idDestino = d.id
+WHERE
+    p.id IN (SELECT idPacote FROM Reservas WHERE statusReserva IN ('Confirmada', 'Pendente'));
+SELECT * FROM PacotesDisponiveis;
+
